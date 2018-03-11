@@ -53,6 +53,20 @@ The user moves a cube around the board trying to knock balls into a cone
 
 	}
 
+	function createLoseScene(){
+		endScene = initScene();
+		endText = createSkyBox('youlose.png',10);
+		//endText.rotateX(Math.PI);
+		endScene.add(endText);
+		var light1 = createPointLight();
+		light1.position.set(0,200,20);
+		endScene.add(light1);
+		endCamera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 0.1, 1000 );
+		endCamera.position.set(0,50,1);
+		endCamera.lookAt(0,0,0);
+
+	}
+
 	/**
 	  To initialize the scene, we initialize each of its components
 	*/
@@ -134,6 +148,9 @@ The user moves a cube around the board trying to knock balls into a cone
 						gameState.score += 1;  // add one to the score
 						if (gameState.score==numBalls) {
 							gameState.scene='youwon';
+						}
+						if (gameState.health==numBalls) { //still need to create health variable counter
+							gameState.scene='youlose';
 						}
             //scene.remove(ball);  // this isn't working ...
 						// make the ball drop below the scene ..
@@ -358,6 +375,12 @@ The user moves a cube around the board trying to knock balls into a cone
 			addBalls();
 			return;
 		}
+		if (gameState.scene == 'youlose' && event.key=='r') {
+			gameState.scene = 'main';
+			gameState.score = 0;
+			addBalls();
+			return;
+		}
 
 		// this is the regular scene
 		switch (event.key){
@@ -454,6 +477,11 @@ The user moves a cube around the board trying to knock balls into a cone
 				endText.rotateY(0.005);
 				renderer.render( endScene, endCamera );
 				break;
+
+				case "youlose":
+					endText.rotateY(0.005);
+					renderer.render( endScene, endCamera );
+					break;
 
 			case "main":
 				updateAvatar();
