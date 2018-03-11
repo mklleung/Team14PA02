@@ -320,6 +320,17 @@ The user moves a cube around the board trying to knock balls into a cone
 		return mesh;
 	}
 
+	function createCylinder(){
+		//var geometry = new THREE.SphereGeometry( 4, 20, 20);
+		var geometry = new THREE.CylinderGeometry( 1, 1, 10, 128);
+		var material = new THREE.MeshLambertMaterial( { color: 0x0000ff} );
+		var pmaterial = new Physijs.createMaterial(material,0.9,0.95);
+    var mesh = new Physijs.cylinderMesh( geometry, pmaterial );
+		mesh.setDamping(0.1,0.1);
+		mesh.castShadow = true;
+		return mesh;
+	}
+
 
 
 
