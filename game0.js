@@ -17,7 +17,7 @@ The user moves a cube around the board trying to knock balls into a cone
 	var cone;
 
 	var endScene, endCamera, endText;
-
+	var startScene, startCamera, startText;
 
 
 
@@ -36,7 +36,19 @@ The user moves a cube around the board trying to knock balls into a cone
 	initControls();
 	animate();  // start the animation loop!
 
+	function createStartScene(){
+		startScene = initScene();
+		startText = createSkyBox('start.png',10);
+		//endText.rotateX(Math.PI);
+		startScene.add(startText);
+		var light1 = createPointLight();
+		light1.position.set(0,200,20);
+		startScene.add(light1);
+		startCamera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 0.1, 1000 );
+		startCamera.position.set(0,50,1);
+		startCamera.lookAt(0,0,0);
 
+	}
 
 
 	function createEndScene(){
@@ -311,6 +323,19 @@ The user moves a cube around the board trying to knock balls into a cone
 		return mesh;
 	}
 
+	function createNPC(){
+		//var geometry = new THREE.SphereGeometry( 4, 20, 20);
+		var geometry = new THREE.BoxGeometry( 5, 5, 6);
+		var material = new THREE.MeshLambertMaterial( { color: 0xffff00} );
+		var npcmaterial = new Physijs.createMaterial(material,0.9,0.5);
+		//var mesh = new THREE.Mesh( geometry, material );
+		var mesh = new Physijs.BoxMesh( geometry, pmaterial );
+		mesh.setDamping(0.1,0.1);
+		mesh.castShadow = true;
+
+		return mesh;
+	}
+
 
 	function createConeMesh(r,h){
 		var geometry = new THREE.ConeGeometry( r, h, 32);
@@ -368,6 +393,12 @@ The user moves a cube around the board trying to knock balls into a cone
 	function keydown(event){
 		console.log("Keydown: '"+event.key+"'");
 		//console.dir(event);
+		if (gameState.scene == 'start' && event.key == 'r') {
+			gameState.scene = 'main';
+			gameState.score = 0;
+			addBalls();
+			return;
+		}
 		// first we handle the "play again" key in the "youwon" scene
 		if (gameState.scene == 'youwon' && event.key=='r') {
 			gameState.scene = 'main';
@@ -472,6 +503,11 @@ The user moves a cube around the board trying to knock balls into a cone
 		requestAnimationFrame( animate );
 
 		switch(gameState.scene) {
+
+			case "start":
+				startText.rotateY(0.005);
+				renderer.render( startScene, startCamera );
+				break;
 
 			case "youwon":
 				endText.rotateY(0.005);
