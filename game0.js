@@ -159,6 +159,7 @@ The user moves a cube around the board trying to knock balls into a cone
 						soundEffect('good.wav');
 						gameState.score += 1;  // add one to the score
 						if (gameState.score==numBalls) {
+							soundEffect('harp.wav');
 							gameState.scene='youwon';
 						}
 						if (gameState.health==0) { //still need to create health variable counter
@@ -445,8 +446,8 @@ The user moves a cube around the board trying to knock balls into a cone
 			case "e": avatarCam.rotateY(-0.25);break;
 			case "t": avatarCam.rotateX(-0.25);break;
 			case "u": avatarCam.rotateX(0.25);break;
-			case "g": avatarCam.rotateZ(-0.25);break;
-			case "j": avatarCam.rotateZ(0.25);break;
+			case "g": avatarCam.rotateZ(0.25);break;
+			case "j": avatarCam.rotateZ(-0.25);break;
 			case "g": avatarCam.rotateY(-0.25);break;
 			case "j": avatarCam.rotateY(0.25);break;
 
