@@ -393,7 +393,7 @@ The user moves a cube around the board trying to knock balls into a cone
 	function keydown(event){
 		console.log("Keydown: '"+event.key+"'");
 		//console.dir(event);
-		if (gameState.scene == 'start' && event.key == 'r') {
+		if (gameState.scene == 'start' && event.key == 'p') {
 			gameState.scene = 'main';
 			gameState.score = 0;
 			addBalls();
