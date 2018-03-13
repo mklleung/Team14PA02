@@ -161,7 +161,7 @@ The user moves a cube around the board trying to knock balls into a cone
 						if (gameState.score==numBalls) {
 							gameState.scene='youwon';
 						}
-						if (gameState.health==numBalls) { //still need to create health variable counter
+						if (gameState.health==0) { //still need to create health variable counter
 							gameState.scene='youlose';
 						}
             //scene.remove(ball);  // this isn't working ...
