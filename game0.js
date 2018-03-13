@@ -323,6 +323,7 @@ The user moves a cube around the board trying to knock balls into a cone
 		return mesh;
 	}
 
+
 	function createNPC(){
 		//var geometry = new THREE.SphereGeometry( 4, 20, 20);
 		var geometry = new THREE.BoxGeometry( 5, 5, 6);
@@ -429,6 +430,7 @@ The user moves a cube around the board trying to knock balls into a cone
       case "h": controls.reset = true; break;
 
 
+
 			// switch cameras
 			case "1": gameState.camera = camera; break;
 			case "2": gameState.camera = avatarCam; break;
@@ -443,6 +445,10 @@ The user moves a cube around the board trying to knock balls into a cone
 			case "e": avatarCam.rotateY(-0.25);break;
 			case "t": avatarCam.rotateX(-0.25);break;
 			case "u": avatarCam.rotateX(0.25);break;
+			case "g": avatarCam.rotateZ(-0.25);break;
+			case "j": avatarCam.rotateZ(0.25);break;
+			case "g": avatarCam.rotateY(-0.25);break;
+			case "j": avatarCam.rotateY(0.25);break;
 
 		}
 
