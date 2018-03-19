@@ -16,7 +16,7 @@ The user moves a cube around the board trying to knock balls into a cone
 
 	var cone;
 
-	var endScene, endCamera, endText;
+	var startScene, endScene, endCamera, endText;
 
 
 
@@ -37,7 +37,17 @@ The user moves a cube around the board trying to knock balls into a cone
 	animate();  // start the animation loop!
 
 
+	function createStartScene(){
 
+		startScene = initScene();
+		var startText = createSkyBox('startscreen.png', 10);
+		startScene.add(startText);
+		startCamera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 0.1, 1000 );
+		startCamera.position.set(0,50,1);
+		startCamera.lookAt(0,0,0);
+
+
+	}
 
 	function createEndScene(){
 		endScene = initScene();
@@ -59,6 +69,7 @@ The user moves a cube around the board trying to knock balls into a cone
 	function init(){
       initPhysijs();
 			scene = initScene();
+			createStartScene();
 			createEndScene();
 			initRenderer();
 			createMainScene();
@@ -89,7 +100,7 @@ The user moves a cube around the board trying to knock balls into a cone
 			// create the avatar
 			avatarCam = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.1, 1000 );
 			avatar = createAvatar();
-			avatar.translateY(20);
+		//	avatar.translateY(20);
 			avatarCam.translateY(-4);
 			avatarCam.translateZ(3);
 			scene.add(avatar);
@@ -220,9 +231,16 @@ The user moves a cube around the board trying to knock balls into a cone
 
 
 	function createBoxMesh(color){
-		var geometry = new THREE.BoxGeometry( 1, 1, 1);
+		var geometry = new THREE.BoxGeometry( 5, 5, 6);
 		var material = new THREE.MeshLambertMaterial( { color: color} );
-		mesh = new Physijs.BoxMesh( geometry, material );
+		var pmaterial = new Physijs.createMaterial(material,0.9,0.5);
+	//	mesh = new Physijs.BoxMesh( geometry, material );
+		var mesh = new Physijs.BoxMesh( geometry, pmaterial );
+		mesh.setDamping(0.1,0.1);
+		mesh.castShadow = true;
+	//	avatarCam.position.set(0,4,0);
+	//	avatarCam.lookAt(0,4,10);
+//		mesh.add(avatarCam);
     //mesh = new Physijs.BoxMesh( geometry, material,0 );
 		mesh.castShadow = true;
 		return mesh;
@@ -273,16 +291,24 @@ The user moves a cube around the board trying to knock balls into a cone
 	}
 
 	function createAvatar(){
-		//var geometry = new THREE.SphereGeometry( 4, 20, 20);
+
+		var material = new THREE.MeshLambertMaterial( { color: 0xffff00} );
+		var geometry = new THREE.BoxGeometry( 5, 5, 6);
 		var loader = new THREE.JSONLoader();
-		var material = //materials[ 0 ];
-		new THREE.MeshLambertMaterial( { color: 0x00ff00 } );
+		var pmaterial = new Physijs.createMaterial(material,0.9,0.5);
+		var avatar = createBoxMesh(0);
+		var suzanne = createBoxMesh(0);
 		loader.load("../models/suzanne.json",
-					function ( geometry, materials ) {
+					function ( geometry, pmaterial ) {
 						console.log("loading suzanne");
-						material = //materials[ 0 ];
-						new THREE.MeshLambertMaterial( { color: 0x00ff00 } );
-						suzanne = new THREE.Mesh( geometry, material );
+
+					//	var mesh = new THREE.Mesh( geometry, material );
+						var suzanne = createBoxMesh(0);
+						suzanne.setDamping(0.1,0.1);
+						suzanne.castShadow = true;
+					//	material = //materials[ 0 ];
+					//	new THREE.MeshLambertMaterial( { color: 0x00ff00 } );
+					//	suzanne = new THREE.Mesh( geometry, pmaterial );
 						console.log("created suzanne mesh");
 						console.log(JSON.stringify(suzanne.scale));// = new THREE.Vector3(4.0,1.0,1.0);
 						scene.add( suzanne  );
@@ -294,25 +320,28 @@ The user moves a cube around the board trying to knock balls into a cone
 						suzanne.position.y = 3;
 						suzanne.position.x = -5;
 						suzanne.castShadow = true;
+						avatarCam.position.set(0,4,0);
+						avatarCam.lookAt(0,4,10);
+						suzanne.add(avatarCam);
+						return suzanne;
 					},
 					function(xhr){
 						console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );},
 					function(err){console.log("error in loading: "+err);}
 				)
 
-		//var geometry = new THREE.BoxGeometry( 5, 5, 6);
-		//var material = new THREE.MeshLambertMaterial( { color: 0xffff00} );
+	//	var geometry = new THREE.BoxGeometry( 5, 5, 6);
+	//	var material = new THREE.MeshLambertMaterial( { color: 0xffff00} );
 		//var pmaterial = new Physijs.createMaterial(material,0.9,0.5);
-		//var mesh = new THREE.Mesh( geometry, material );
+	//	var mesh = new THREE.Mesh( geometry, material );
 		//var mesh = new Physijs.BoxMesh( geometry, pmaterial );
-		//mesh.setDamping(0.1,0.1);
-		//mesh.castShadow = true;
+	//	mesh.setDamping(0.1,0.1);
+//		mesh.castShadow = true;
 
 		avatarCam.position.set(0,4,0);
 		avatarCam.lookAt(0,4,10);
-		//suzanne.add(avatarCam);
+	  avatar.add(avatarCam);
 		return avatar;
-		//return suzanne;
 	}
 
 
@@ -428,7 +457,7 @@ The user moves a cube around the board trying to knock balls into a cone
   function updateAvatar(){
 		"change the avatar's linear or angular velocity based on controls state (set by WSAD key presses)"
 
-		var forward = avatar.getWorldDirection();
+		var forward = avatarCam.getWorldDirection();
 
 		if (controls.fwd){
 			avatar.setLinearVelocity(forward.multiplyScalar(controls.speed));
