@@ -12,6 +12,7 @@ The user moves a cube around the board trying to knock balls into a cone
 	var scene, renderer;  // all threejs programs need these
 	var camera, avatarCam, edgeCam;  // we have two cameras in the main scene
 	var avatar;
+	var npc;
 	// here are some mesh objects ...
 
 	var cone;
@@ -124,6 +125,7 @@ The user moves a cube around the board trying to knock balls into a cone
       edgeCam = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.1, 1000 );
       edgeCam.position.set(20,20,10);
 
+			npc = createNPC();
 
 			addBalls();
 
@@ -334,6 +336,17 @@ The user moves a cube around the board trying to knock balls into a cone
 		var mesh = new Physijs.BoxMesh( geometry, pmaterial );
 		mesh.setDamping(0.1,0.1);
 		mesh.castShadow = true;
+
+		npc.addEventListener( 'collision',
+			function( other_object, relative_velocity, relative_rotation, contact_normal ) {
+				if (other_object==avatar){
+					console.log("npc "+i+" hit the avatar");
+					gameState.health--;
+					this.__dirtyPosition = true;
+					this.position.y(Math.random());
+				}
+			}
+		)
 
 		return mesh;
 	}
