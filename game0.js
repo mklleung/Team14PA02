@@ -340,7 +340,7 @@ The user moves a cube around the board trying to knock balls into a cone
 		npc.addEventListener( 'collision',
 			function( other_object, relative_velocity, relative_rotation, contact_normal ) {
 				if (other_object==avatar){
-					console.log("npc "+i+" hit the avatar");
+					console.log("npc hit the avatar");
 					gameState.health--;
 					this.__dirtyPosition = true;
 					this.position.y(Math.random());
