@@ -12,7 +12,7 @@ The user moves a cube around the board trying to knock balls into a cone
 	var scene, renderer;  // all threejs programs need these
 	var camera, avatarCam, edgeCam;  // we have two cameras in the main scene
 	var avatar;
-	var npc;
+	var npc1, npc2;
 	// here are some mesh objects ...
 
 	var cone;
@@ -125,7 +125,15 @@ The user moves a cube around the board trying to knock balls into a cone
       edgeCam = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.1, 1000 );
       edgeCam.position.set(20,20,10);
 
-			npc = createNPC();
+			npc1 = createNPC1();
+			npc1.translateY(-30);
+			npc1.translateX(-20);
+			scene.add(npc1);
+
+			npc2 = createNPC2();
+			npc2.translateY(20);
+			npc2.translateX(30);
+			scene.add(npc2);
 
 			addBalls();
 
@@ -327,17 +335,17 @@ The user moves a cube around the board trying to knock balls into a cone
 	}
 
 
-	function createNPC(){
+	function createNPC1(){
 		//var geometry = new THREE.SphereGeometry( 4, 20, 20);
 		var geometry = new THREE.BoxGeometry( 5, 5, 6);
 		var material = new THREE.MeshLambertMaterial( { color: 0xffff00} );
-		var npcmaterial = new Physijs.createMaterial(material,0.9,0.5);
+		var npc1material = new Physijs.createMaterial(material,0.9,0.5);
 		//var mesh = new THREE.Mesh( geometry, material );
-		var mesh = new Physijs.BoxMesh( geometry, pmaterial );
+		var mesh = new Physijs.BoxMesh( geometry, npc1material );
 		mesh.setDamping(0.1,0.1);
 		mesh.castShadow = true;
 
-		npc.addEventListener( 'collision',
+		npc1.addEventListener( 'collision',
 			function( other_object, relative_velocity, relative_rotation, contact_normal ) {
 				if (other_object==avatar){
 					console.log("npc hit the avatar");
@@ -348,6 +356,18 @@ The user moves a cube around the board trying to knock balls into a cone
 			}
 		)
 
+		return mesh;
+	}
+
+	function createNPC2(){
+		//var geometry = new THREE.SphereGeometry( 4, 20, 20);
+		var geometry = new THREE.BoxGeometry( 5, 5, 6);
+		var material = new THREE.MeshLambertMaterial( { color: 0xffff00} );
+		var npc2material = new Physijs.createMaterial(material,0.9,0.5);
+		//var mesh = new THREE.Mesh( geometry, material );
+		var mesh = new Physijs.BoxMesh( geometry, npc2material );
+		mesh.setDamping(0.1,0.1);
+		mesh.castShadow = true;
 		return mesh;
 	}
 
@@ -518,10 +538,14 @@ The user moves a cube around the board trying to knock balls into a cone
 
 	}
 
-	function updateNPC(){
-		npc.lookAt(avatar.position);
-	  npc.__dirtyPosition = true;
-		npc.setLinearVelocity(npc.getWorldDirection().multiplyScalar(0.5));
+	function updateNPC1(){
+		npc1.lookAt(avatar.position);
+	  npc1.__dirtyPosition = true;
+		npc1.setLinearVelocity(npc1.getWorldDirection().multiplyScalar(0.5));
+	}
+
+	function updateNPC2(){
+		npc2.lookAt(avatar.position);
 	}
 
 
