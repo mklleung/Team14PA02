@@ -323,7 +323,7 @@ The user moves a cube around the board trying to knock balls into a cone
 
 	}
 
-	function createAvatar(){
+	function createAvatar(other_object){
 		//var geometry = new THREE.SphereGeometry( 4, 20, 20);
 		var geometry = new THREE.BoxGeometry( 5, 5, 6);
 		var material = new THREE.MeshLambertMaterial( { color: 0xffff00} );
