@@ -332,7 +332,7 @@ The user moves a cube around the board trying to knock balls into a cone
 		var mesh = new Physijs.BoxMesh( geometry, pmaterial );
 		mesh.setDamping(0.1,0.1);
 		mesh.castShadow = true;
-		var suzanne = initSuzanneJSON();
+		//var suzanne = initSuzanneJSON();
 		avatarCam.position.set(0,4,0);
 		avatarCam.lookAt(0,4,10);
 		mesh.add(avatarCam);
