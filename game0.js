@@ -284,22 +284,20 @@ The user moves a cube around the board trying to knock balls into a cone
 
 	function createAvatar(){
 
-		//var geometry = new THREE.SphereGeometry( 4, 20, 20);
 		var geometry = new THREE.BoxGeometry( 5, 5, 6);
-		var material = new THREE.MeshLambertMaterial( { color: 0xffff00, transparent: true} );
+		var material = new THREE.MeshLambertMaterial( { color: 0xffff00 } );
 		var pmaterial = new Physijs.createMaterial(material,0.9,0.5);
-		//var mesh = new THREE.Mesh( geometry, material );
+		var mesh = new THREE.Mesh( geometry, material );
 		var mesh = new Physijs.BoxMesh( geometry, pmaterial );
 		mesh.setDamping(0.1,0.1);
 		mesh.castShadow = true;
-
 		avatarCam.position.set(0,4,0);
 		avatarCam.lookAt(0,4,10);
 		mesh.add(avatarCam);
-		var suzanne = initSuzanneJSON();
-		var group = new THREE.Group();
-		group.add(mesh);
-		group.add(suzanne);
+		//var suzanne = initSuzanneJSON();
+	//	var group = new THREE.Group();
+//		group.add(mesh);
+//		group.add(suzanne);
 		return mesh;
 
 	//	var geometry = new THREE.BoxGeometry( 5, 5, 6);
@@ -322,6 +320,7 @@ The user moves a cube around the board trying to knock balls into a cone
 						var material = //materials[ 0 ];
 						new THREE.MeshLambertMaterial( { color: 0x00ff00 } );
 						suzanne = new Physijs.BoxMesh( geometry, material );
+						//suzanne = new THREE.
 						avatarCam = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.1, 1000 );
 						gameState.camera = avatarCam;
 						console.log("created suzanne mesh");
@@ -420,6 +419,7 @@ The user moves a cube around the board trying to knock balls into a cone
 			case "m": controls.speed = 30; break;
 			case " ": controls.fly = true; break;
 			case "p": controls.start = true; break;
+			case "y": controls.color = true; break;
 			// switch cameras
 			case "1": gameState.camera = camera; break;
 			case "2": gameState.camera = avatarCam; break;
@@ -475,6 +475,14 @@ The user moves a cube around the board trying to knock balls into a cone
 
 	}
 
+	function color(event) {
+
+
+		if(event.key == 'y') {
+
+			avatar.material.color.setHex( 0xffffff );
+		}
+	}
   function updateAvatar(){
 		"change the avatar's linear or angular velocity based on controls state (set by WSAD key presses)"
 
@@ -499,6 +507,10 @@ The user moves a cube around the board trying to knock balls into a cone
 		if (controls.fly) {
 
 			avatar.setLinarVelocity(new THREE.Vector3(0, controls.speed, 0));
+		}
+		if(controls.color) {
+
+			avatar.material.color.setHex(0xffffff);
 		}
 		else {
 
