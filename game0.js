@@ -36,8 +36,17 @@ The user moves a cube around the board trying to knock balls into a cone
 	function createStartScene(){
 
 		startScene = initScene();
-		var startText = createSkyBox('startscreen.png', 10);
-	//	var ground = createGround('startscreen.png');
+		var geometry = new THREE.SphereGeometry( 80, 80, 80 );
+		var texture = new THREE.TextureLoader().load( '../images/startscreen.png' );
+		texture.wrapS = THREE.RepeatWrapping;
+		texture.wrapT = THREE.RepeatWrapping;
+		texture.repeat.x = -1;
+		texture.repeat.set( 4, 4 );
+		var material = new THREE.MeshLambertMaterial( { color: 0xffffff,  map: texture ,side:THREE.DoubleSide} );
+		//var pmaterial = new Physijs.createMaterial(material,0.9,0.5);
+		//var mesh = new THREE.Mesh( geometry, material );
+		var startText = new THREE.Mesh( geometry, material, 0 );
+		startText.receiveShadow = false;
 		startScene.add(startText);
 		var light1 = createPointLight();
 		light1.position.set(0,200,20);
