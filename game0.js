@@ -40,11 +40,8 @@ The user moves a cube around the board trying to knock balls into a cone
 		var texture = new THREE.TextureLoader().load( '../images/startscreen.png' );
 		texture.wrapS = THREE.RepeatWrapping;
 		texture.wrapT = THREE.RepeatWrapping;
-		texture.repeat.x = -1;
 		texture.repeat.set( 4, 4 );
 		var material = new THREE.MeshLambertMaterial( { color: 0xffffff,  map: texture ,side:THREE.DoubleSide} );
-		//var pmaterial = new Physijs.createMaterial(material,0.9,0.5);
-		//var mesh = new THREE.Mesh( geometry, material );
 		var startText = new THREE.Mesh( geometry, material, 0 );
 		startText.receiveShadow = false;
 		startScene.add(startText);
@@ -303,7 +300,7 @@ The user moves a cube around the board trying to knock balls into a cone
 		avatarCam.position.set(0,4,0);
 		avatarCam.lookAt(0,4,10);
 		mesh.add(avatarCam);
-		//var suzanne = initSuzanneJSON();
+		var suzanne = initSuzanneJSON();
 	//	var group = new THREE.Group();
 //		group.add(mesh);
 //		group.add(suzanne);
@@ -324,12 +321,14 @@ The user moves a cube around the board trying to knock balls into a cone
 
 		var loader = new THREE.JSONLoader();
 		loader.load("../models/suzanne.json",
-					function ( geometry, pmaterial ) {
+					function ( geometry, materials ) {
 						console.log("loading suzanne");
-						var material = //materials[ 0 ];
-						new THREE.MeshLambertMaterial( { color: 0x00ff00 } );
-						suzanne = new Physijs.BoxMesh( geometry, material );
-						//suzanne = new THREE.
+						var geometry = new THREE.Geometry();
+						var material = new THREE.MeshLambertMaterial( {color: 0x00ff00});
+						var pmaterial = new Physijs.createMaterial(material, 0.9, 0.5);
+						 //materials[ 0 ];
+						var suzanne = new Physijs.BoxMesh( geometry, pmaterial );
+						//var suzanne = new THREE.Mesh(geometry, material);
 						avatarCam = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.1, 1000 );
 						gameState.camera = avatarCam;
 						console.log("created suzanne mesh");
