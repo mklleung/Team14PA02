@@ -382,9 +382,9 @@ The user moves a cube around the board trying to knock balls into a cone
 		var material = new THREE.MeshLambertMaterial( { color: 0xffff00} );
 		var npc1material = new Physijs.createMaterial(material,0.9,0.5);
 		//var mesh = new THREE.Mesh( geometry, material );
-		var mesh = new Physijs.BoxMesh( geometry, npc1material );
-		mesh.setDamping(0.1,0.1);
-		mesh.castShadow = true;
+		var npc1 = new Physijs.BoxMesh( geometry, npc1material );
+		npc1.setDamping(0.1,0.1);
+		npc1.castShadow = true;
 
 		npc1.addEventListener( 'collision',
 			function( other_object, relative_velocity, relative_rotation, contact_normal ) {
@@ -397,7 +397,7 @@ The user moves a cube around the board trying to knock balls into a cone
 			}
 		)
 
-		return mesh;
+		return npc1;
 	}
 
 	function createNPC2(){
