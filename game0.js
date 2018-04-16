@@ -132,7 +132,7 @@ The user moves a cube around the board trying to knock balls into a cone
       edgeCam.position.set(20,20,10);
 
 			npc1 = createNPC1();
-			npc1.translateY(-30);
+			npc1.translateY(5);
 			npc1.translateX(-20);
 			scene.add(npc1);
 
@@ -332,11 +332,19 @@ The user moves a cube around the board trying to knock balls into a cone
 		var mesh = new Physijs.BoxMesh( geometry, pmaterial );
 		mesh.setDamping(0.1,0.1);
 		mesh.castShadow = true;
+<<<<<<< HEAD
   	var suzanne = initSuzanneJSON();
 		avatarCam.position.set(0,4,0);
 		avatarCam.lookAt(0,4,10);
 		mesh.add(avatarCam);
 
+=======
+		//var suzanne = initSuzanneJSON();
+		//avatarCam.position.set(0,4,0);
+		//avatarCam.lookAt(0,4,10);
+		//mesh.add(avatarCam);
+		initSuzanneJSON()
+>>>>>>> ac7a70b41a71de379ff273d414d47ff74234f8e7
 		return mesh;
 	}
 
@@ -346,6 +354,7 @@ The user moves a cube around the board trying to knock balls into a cone
 		loader.load("../models/suzanne.json",
 					function ( geometry, materials ) {
 						console.log("loading suzanne");
+<<<<<<< HEAD
 						var material = new THREE.MeshLambertMaterial( { color: 0xffff00 } );
 						var pmaterial = new Physijs.createMaterial(material,0.9,0.05);
 						avatar = new Physijs.BoxMesh( geometry, pmaterial, 500);
@@ -359,6 +368,32 @@ The user moves a cube around the board trying to knock balls into a cone
 						avatar.add(avatarCam);
 
 						scene.add(avatar);
+=======
+						var material = new THREE.MeshLambertMaterial( {color: 0x00ff00});
+						var pmaterial = new Physijs.createMaterial(material, 0.9, 0.5);
+						 //materials[ 0 ];
+						var suzanne = new Physijs.BoxMesh( geometry, pmaterial );
+						//var suzanne = new THREE.Mesh(geometry, material);
+						avatarCam = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.1, 1000 );
+						gameState.camera = avatarCam;
+						console.log("created suzanne mesh");
+						console.log(JSON.stringify(suzanne.scale));// = new THREE.Vector3(4.0,1.0,1.0);
+						scene.add( suzanne  );
+						var s = 2;
+						suzanne.scale.y=s;
+						suzanne.scale.x=s;
+						suzanne.scale.z=s;
+						suzanne.position.z = 0;
+						suzanne.position.y = 0;
+						suzanne.position.x = 0;
+						suzanne.castShadow = true;
+						avatarCam.position.set(0,4,0);
+						avatarCam.lookAt(0,4,10);
+						suzanne.add(avatarCam);
+						avatar=suzanne
+						scene.add(suzanne);
+
+>>>>>>> ac7a70b41a71de379ff273d414d47ff74234f8e7
 					},
 					function(xhr){
 						console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );},
@@ -622,13 +657,15 @@ The user moves a cube around the board trying to knock balls into a cone
 				renderer.render( endScene, endCamera );
 				break;
 
-				case "youlose":
+			case "youlose":
 					endText.rotateY(0.005);
 					renderer.render( endScene, endCamera );
 					break;
 
 			case "main":
 				updateAvatar();
+				updateNPC1();
+				updateNPC2();
         edgeCam.lookAt(avatar.position);
 	    	scene.simulate();
 				if (gameState.camera!= 'none'){
