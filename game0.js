@@ -324,15 +324,15 @@ The user moves a cube around the board trying to knock balls into a cone
 	}
 
 	function createAvatar(other_object){
-		//var geometry = new THREE.SphereGeometry( 4, 20, 20);
+		var geometry = new THREE.SphereGeometry( 4, 20, 20);
 		var geometry = new THREE.BoxGeometry( 5, 5, 6);
 		var material = new THREE.MeshLambertMaterial( { color: 0xffff00} );
 		var pmaterial = new Physijs.createMaterial(material,0.9,0.5);
-		//var mesh = new THREE.Mesh( geometry, material );
+		var mesh = new THREE.Mesh( geometry, material );
 		var mesh = new Physijs.BoxMesh( geometry, pmaterial );
 		mesh.setDamping(0.1,0.1);
 		mesh.castShadow = true;
-		//var suzanne = initSuzanneJSON();
+  	var suzanne = initSuzanneJSON();
 		avatarCam.position.set(0,4,0);
 		avatarCam.lookAt(0,4,10);
 		mesh.add(avatarCam);
@@ -346,29 +346,19 @@ The user moves a cube around the board trying to knock balls into a cone
 		loader.load("../models/suzanne.json",
 					function ( geometry, materials ) {
 						console.log("loading suzanne");
-						var material = new THREE.MeshLambertMaterial( {color: 0x00ff00});
-						var pmaterial = new Physijs.createMaterial(material, 0.9, 0.5);
-						 //materials[ 0 ];
-						var suzanne = new Physijs.BoxMesh( geometry, pmaterial );
-						//var suzanne = new THREE.Mesh(geometry, material);
-						avatarCam = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.1, 1000 );
-						gameState.camera = avatarCam;
-						console.log("created suzanne mesh");
-						console.log(JSON.stringify(suzanne.scale));// = new THREE.Vector3(4.0,1.0,1.0);
-						scene.add( suzanne  );
-						var s = 0.5;
-						suzanne.scale.y=s;
-						suzanne.scale.x=s;
-						suzanne.scale.z=s;
-						suzanne.position.z = 0;
-						suzanne.position.y = 0;
-						suzanne.position.x = 0;
-						suzanne.castShadow = true;
+						var material = new THREE.MeshLambertMaterial( { color: 0xffff00 } );
+						var pmaterial = new Physijs.createMaterial(material,0.9,0.05);
+						avatar = new Physijs.BoxMesh( geometry, pmaterial, 500);
+						avatar.setDamping(0.1,0.1);
+						avatar.castShadow = true;
+						avatar.scale.set(3,3,3);
+						avatar.position.set(0,20,0);
+
 						avatarCam.position.set(0,4,0);
 						avatarCam.lookAt(0,4,10);
-						suzanne.add(avatarCam);
-						scene.add(suzanne);
-						return suzanne;
+						avatar.add(avatarCam);
+
+						scene.add(avatar);
 					},
 					function(xhr){
 						console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );},
