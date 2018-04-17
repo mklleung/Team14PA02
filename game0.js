@@ -17,6 +17,7 @@ The user moves a cube around the board trying to knock balls into a cone
 	var cone;
 
 	var endScene, endCamera, endText;
+	var endScene2, endCamera2, endText2;
 	var startScene, startCamera, startText;
 
 
@@ -72,16 +73,16 @@ The user moves a cube around the board trying to knock balls into a cone
 	}
 
 	function createLoseScene(){
-		endScene = initScene();
-		endText = createSkyBox('youlose.png',10);
+		endScene2 = initScene();
+		endText2 = createSkyBox('youlose.png',10);
 		//endText.rotateX(Math.PI);
-		endScene.add(endText);
-		var light1 = createPointLight();
-		light1.position.set(0,200,20);
-		endScene.add(light1);
-		endCamera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 0.1, 1000 );
-		endCamera.position.set(0,50,1);
-		endCamera.lookAt(0,0,0);
+		endScene2.add(endText2);
+		var light2 = createPointLight();
+		light2.position.set(0,200,20);
+		endScene2.add(light2);
+		endCamera2 = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 0.1, 1000 );
+		endCamera2.position.set(0,50,1);
+		endCamera2.lookAt(0,0,0);
 
 	}
 
@@ -138,7 +139,7 @@ The user moves a cube around the board trying to knock balls into a cone
 
 			npc2 = createNPC2();
 			npc2.translateY(20);
-			npc2.translateX(30);
+			npc2.translateZ(30);
 			scene.add(npc2);
 
 			addBalls();
@@ -380,7 +381,7 @@ The user moves a cube around the board trying to knock balls into a cone
 	function createNPC1(){
 		//var geometry = new THREE.SphereGeometry( 4, 20, 20);
 		var geometry = new THREE.BoxGeometry( 5, 5, 6);
-		var material = new THREE.MeshLambertMaterial( { color: 0xffff00} );
+		var material = new THREE.MeshLambertMaterial( { color: 0xff0000} );
 		var npc1material = new Physijs.createMaterial(material,0.9,0.5);
 		//var mesh = new THREE.Mesh( geometry, material );
 		var npc1 = new Physijs.BoxMesh( geometry, npc1material );
@@ -393,7 +394,8 @@ The user moves a cube around the board trying to knock balls into a cone
 					console.log("npc hit the avatar");
 					gameState.health--;
 					this.__dirtyPosition = true;
-					this.position.y(Math.random());
+					npc1.position.y(Math.random())
+					npc1.position.z(Math.random());
 				}
 			}
 		)
@@ -404,7 +406,7 @@ The user moves a cube around the board trying to knock balls into a cone
 	function createNPC2(){
 		//var geometry = new THREE.SphereGeometry( 4, 20, 20);
 		var geometry = new THREE.BoxGeometry( 5, 5, 6);
-		var material = new THREE.MeshLambertMaterial( { color: 0xffff00} );
+		var material = new THREE.MeshLambertMaterial( { color: 0xff0000} );
 		var npc2material = new Physijs.createMaterial(material,0.9,0.5);
 		//var mesh = new THREE.Mesh( geometry, material );
 		var mesh = new Physijs.BoxMesh( geometry, npc2material );
@@ -634,9 +636,9 @@ The user moves a cube around the board trying to knock balls into a cone
 				break;
 
 			case "youlose":
-					endText.rotateY(0.005);
-					renderer.render( endScene, endCamera );
-					break;
+				endText2.rotateY(0.005);
+				renderer.render( endScene2, endCamera2 );
+				break;
 
 			case "main":
 				updateAvatar();
