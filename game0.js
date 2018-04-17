@@ -324,27 +324,19 @@ The user moves a cube around the board trying to knock balls into a cone
 	}
 
 	function createAvatar(other_object){
-		var geometry = new THREE.SphereGeometry( 4, 20, 20);
+		//var geometry = new THREE.SphereGeometry( 4, 20, 20);
 		var geometry = new THREE.BoxGeometry( 5, 5, 6);
 		var material = new THREE.MeshLambertMaterial( { color: 0xffff00} );
 		var pmaterial = new Physijs.createMaterial(material,0.9,0.5);
-		var mesh = new THREE.Mesh( geometry, material );
+		//var mesh = new THREE.Mesh( geometry, material );
 		var mesh = new Physijs.BoxMesh( geometry, pmaterial );
 		mesh.setDamping(0.1,0.1);
 		mesh.castShadow = true;
-<<<<<<< HEAD
-  	var suzanne = initSuzanneJSON();
-		avatarCam.position.set(0,4,0);
-		avatarCam.lookAt(0,4,10);
-		mesh.add(avatarCam);
-
-=======
 		//var suzanne = initSuzanneJSON();
 		//avatarCam.position.set(0,4,0);
 		//avatarCam.lookAt(0,4,10);
 		//mesh.add(avatarCam);
 		initSuzanneJSON()
->>>>>>> ac7a70b41a71de379ff273d414d47ff74234f8e7
 		return mesh;
 	}
 
@@ -354,21 +346,6 @@ The user moves a cube around the board trying to knock balls into a cone
 		loader.load("../models/suzanne.json",
 					function ( geometry, materials ) {
 						console.log("loading suzanne");
-<<<<<<< HEAD
-						var material = new THREE.MeshLambertMaterial( { color: 0xffff00 } );
-						var pmaterial = new Physijs.createMaterial(material,0.9,0.05);
-						avatar = new Physijs.BoxMesh( geometry, pmaterial, 500);
-						avatar.setDamping(0.1,0.1);
-						avatar.castShadow = true;
-						avatar.scale.set(3,3,3);
-						avatar.position.set(0,20,0);
-
-						avatarCam.position.set(0,4,0);
-						avatarCam.lookAt(0,4,10);
-						avatar.add(avatarCam);
-
-						scene.add(avatar);
-=======
 						var material = new THREE.MeshLambertMaterial( {color: 0x00ff00});
 						var pmaterial = new Physijs.createMaterial(material, 0.9, 0.5);
 						 //materials[ 0 ];
@@ -393,7 +370,6 @@ The user moves a cube around the board trying to knock balls into a cone
 						avatar=suzanne
 						scene.add(suzanne);
 
->>>>>>> ac7a70b41a71de379ff273d414d47ff74234f8e7
 					},
 					function(xhr){
 						console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );},
